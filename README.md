@@ -1,56 +1,75 @@
-# 🌐 Backend - Meu Projeto Node.js
+# 🌐 Backend - Projeto Node.js
 
-Este é o backend do projeto, desenvolvido em **Node.js** com **Express**, responsável por gerenciar a API, autenticação, regras de negócio e comunicação com o banco de dados.
-
----
-
-## 🚀 Tecnologias Utilizadas
-
-- [Node.js](https://nodejs.org/)
-- [Express](https://expressjs.com/)
-- [Cors](https://www.npmjs.com/package/cors)
-- [Dotenv](https://www.npmjs.com/package/dotenv)
-- [Nodemon](https://www.npmjs.com/package/nodemon) (ambiente de desenvolvimento)
-- Banco de dados (ex: [MongoDB](https://www.mongodb.com/) ou [MySQL](https://www.mysql.com/))
+## 📌 Objetivo
+Este backend foi desenvolvido em **Node.js + Express** para gerenciar autenticação, regras de negócio, integração com banco de dados e expor APIs REST ao frontend.  
+Ele é responsável por processar dados, validar credenciais, gerar tokens JWT e realizar deploy automatizado na **AWS (ECR + Elastic Beanstalk)** via GitHub Actions.
 
 ---
 
-## 📂 Estrutura do Projeto
+## ⚙️ Instalação e Execução
 
-⚙️ Instalação e Execu
-
+### 1. Clonar repositório
 ```bash
-backend/
-├── src/
-│   ├── controllers/      # Lógica das rotas
-│   ├── models/           # Modelos do banco de dados
-│   ├── routes/           # Definição das rotas
-│   ├── middlewares/      # Middlewares (ex: autenticação)
-│   ├── config/           # Configurações (db, variáveis de ambiente)
-│   └── server.js         # Ponto de entrada da aplicação
-├── .env                  # Variáveis de ambiente
-├── package.json
-├── README.md
-└── .gitignore
-
-```
-⚙️ Instalação e Execução
-1. Clone o repositório
----
 git clone https://github.com/seu-usuario/seu-repo.git
 cd backend
+```
 
----
-2. Instale as dependências
----
+### 2. Instalar dependências
+```bash
 npm install
+```
+
+### 3. Configurar variáveis de ambiente
+Crie um arquivo `.env` na raiz do backend seguindo o modelo do `.env.sample`:
+
+
+### 4. Rodar servidor
+```bash
+npm run dev   # desenvolvimento (com nodemon)
+npm start     # produção
+```
 
 ---
-3. Execute o servidor em modo desenvolvimento
----
-npm run dev
+
+## 🧪 Testes
+
+Rodar os testes locais:
+```bash
+npm test
+```
+
 ---
 
-4. Execute em modo produção
+## 🔑 Orientações sobre credenciais
+
+- **Nunca versionar** `.env` com dados sensíveis.
+- Utilize o arquivo `.env.sample` como referência para variáveis necessárias.
+- Em produção, as credenciais ficam em:
+  - **GitHub Actions → Settings → Secrets/Variables**
+  - **AWS Secrets Manager** para dados críticos como `DATABASE_URL` ou `JWT_SECRET`.
+- CI/CD já está configurado para **usar OIDC no GitHub** ou chaves IAM rotacionáveis.
+
 ---
-npm start
+
+## 🔄 CI/CD (Workflows GitHub Actions)
+
+Os workflows do backend estão localizados em `.github/workflows/`:
+
+- **pipeline-ecr-eb.yml** → Build da imagem Docker, push para AWS ECR e deploy no Elastic Beanstalk.  
+- **pipeline-ecr-eb-provisioning.yml** → Provisiona infraestrutura (Terraform/Ansible).  
+- **pipeline-ecr-eb-terraform.yml** → Infra como código com Terraform.  
+- **pipeline-ecr-eb-destroy.yml** → Destrói a infraestrutura.  
+
+### 🔧 Gatilhos
+- `on: push` na branch `main`
+- `on: pull_request` para `main`
+- `workflow_dispatch` para execução manual
+
+### 🔐 Segredos utilizados
+- `AWS_ACCOUNT_ID`, `AWS_REGION`, `AWS_ECR_REPO`, `AWS_EB_APP`, `AWS_EB_ENV`
+- Se não usar OIDC, também: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`
+
+---
+
+## 📜 Licença
+MIT License
