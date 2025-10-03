@@ -10,7 +10,7 @@ Ele é responsável por processar dados, validar credenciais, gerar tokens JWT e
 
 ### 1. Clonar repositório
 ```bash
-git clone https://github.com/seu-usuario/seu-repo.git
+git clone https://github.com/Dudubor/Travelia-backend
 cd backend
 ```
 
