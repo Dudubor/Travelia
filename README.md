@@ -36,14 +36,21 @@ backend/
 ```
 ⚙️ Instalação e Execução
 1. Clone o repositório
-git clone https://github.com/Dudubor/Travelia-backend
+---
+git clone https://github.com/seu-usuario/seu-repo.git
 cd backend
 
+---
 2. Instale as dependências
+---
 npm install
 
+---
 3. Execute o servidor em modo desenvolvimento
+---
 npm run dev
+---
 
 4. Execute em modo produção
+---
 npm start
